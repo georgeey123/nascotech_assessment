@@ -48,18 +48,35 @@ npm run build
 ```sh
 npm start
 ```
-
 ---
-## Approach
-1. **Fetching Data**: The app fetches country data from the REST Countries API and stores it in the component state.
-2. **Search & Filtering**: Users can search for countries using the `SearchBar` component, which updates the URL query parameters.
-3. **Sorting**: Users can sort countries by population using a dropdown.
-4. **Navigation & Details**: Clicking on a country leads to a detail page that provides additional information.
-5. **Performance Optimizations**: Using **Suspense** and **React hooks** ensures smooth data fetching and reactivity.
-6. **Styling**: Tailwind CSS is used for styling to make the UI clean and responsive.
+1. **Data Fetching & State Management**  
+   - The application fetches country data from the [REST Countries API](https://restcountries.com/) using `fetch`.  
+   - API calls are managed efficiently to prevent unnecessary requests.  
+   - Country data is stored in a local state using `useState` for better state management and reactivity.
 
----
-## Future Enhancements
-- Implement client-side caching for API responses.
-- Improve UI with additional animations and dark mode.
+2. **Search & Filtering**  
+   - The `SearchBar` component updates the query parameters in the URL dynamically.    
+   - The search query is persisted in the URL, ensuring state retention during navigation.
+
+3. **Sorting Mechanism**  
+   - A dropdown component allows sorting countries based on population.  
+   - Sorting is implemented at the state level, ensuring minimal re-renders and efficient updates.
+
+4. **Navigation & Country Details**  
+   - Clicking on a country card navigates to a dynamic `/country/[id]` route.  
+   - The page fetches and displays detailed country data, including flag, capital, population, languages, and geographic information.  
+   - Static pre-generation (`getStaticProps` and `getStaticPaths`) optimizes loading times.
+
+5. **Performance Optimizations**  
+   - **Suspense & Lazy Loading**: `Suspense` is used to handle loading states smoothly.  
+   - **React Server Components**: Next.js's App Router leverages server-side rendering (SSR) where applicable.  
+   - **Code Splitting**: Components are dynamically imported to improve load performance.  
+
+6. **Styling & Responsiveness**  
+   - The UI is built with **Tailwind CSS**, providing utility-based styling for flexibility and performance.  
+   - A responsive grid layout ensures a seamless experience across different screen sizes.  
+   - Dark mode is planned as a future enhancement.
+
+## Deployment Link
+[George Ohene Assessment](https://nascotech-assessment.vercel.app/)
 
