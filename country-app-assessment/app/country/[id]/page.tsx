@@ -33,7 +33,9 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function CountryPage({ params }: GetStaticPropsContext<{ id: string }>) {
+export default async function CountryPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params; 
+
   if (!params?.id) {
     throw new Error("Country ID is missing");
   }
