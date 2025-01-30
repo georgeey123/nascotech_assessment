@@ -14,6 +14,12 @@ type Country = {
   languages?: Record<string, string>
 }
 
+async function getCountries(): Promise<Country[]> {
+  const res = await fetch("https://restcountries.com/v3.1/all")
+  if (!res.ok) throw new Error("Failed to fetch countries")
+  return res.json()
+}
+
 async function getCountry(id: string): Promise<Country> {
   const res = await fetch(`https://restcountries.com/v3.1/alpha/${id}`)
   if (!res.ok) throw new Error("Failed to fetch country")
@@ -21,11 +27,18 @@ async function getCountry(id: string): Promise<Country> {
   return data[0]
 }
 
-export default async function CountryPage({
-  params,
-}: {
+export async function generateStaticParams() {
+  const countries = await getCountries()
+  return countries.map((country) => ({
+    id: country.cca3,
+  }))
+}
+
+type Props = {
   params: { id: string }
-}) {
+}
+
+export default async function CountryPage({ params }: Props) {
   const country = await getCountry(params.id)
 
   return (
