@@ -39,7 +39,8 @@ type Props = {
 }
 
 export default async function CountryPage({ params }: Props) {
-  const country = await getCountry(params.id)
+  const {id} = await params;
+  const country = await getCountry(id)
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 px-4 py-8">
