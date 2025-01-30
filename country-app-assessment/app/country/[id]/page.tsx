@@ -2,11 +2,34 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 
-async function getCountry(id: string) {
+type Country = {
+  cca3: string
+  name: { official: string }
+  flags: { svg: string }
+  capital?: string[]
+  region: string
+  subregion?: string
+  population: number
+  area: number
+  languages?: Record<string, string>
+}
+
+async function getCountry(id: string): Promise<Country> {
   const res = await fetch(`https://restcountries.com/v3.1/alpha/${id}`)
   if (!res.ok) throw new Error("Failed to fetch country")
   const data = await res.json()
   return data[0]
+}
+
+export async function generateStaticParams() {
+  const res = await fetch("https://restcountries.com/v3.1/all")
+  if (!res.ok) throw new Error("Failed to fetch countries")
+
+  const countries: Country[] = await res.json()
+
+  return countries.map((country) => ({
+    id: country.cca3,
+  }))
 }
 
 export default async function CountryPage({ params }: { params: { id: string } }) {
@@ -24,7 +47,7 @@ export default async function CountryPage({ params }: { params: { id: string } }
           <div className="aspect-video relative">
             <Image
               src={country.flags.svg || "/placeholder.svg"}
-              alt={`Flag of ${country.name.common}`}
+              alt={`Flag of ${country.name.official}`}
               fill
               className="object-cover"
             />
@@ -70,4 +93,3 @@ export default async function CountryPage({ params }: { params: { id: string } }
     </main>
   )
 }
-

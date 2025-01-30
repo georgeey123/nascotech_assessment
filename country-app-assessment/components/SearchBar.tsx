@@ -20,7 +20,7 @@ export default function SearchBar() {
   return (
     <div className="flex flex-col gap-4">
       <input
-        className="w-full rounded-full border border-gray-200 bg-white/80 px-6 py-4 text-lg shadow-lg backdrop-blur-sm transition-all focus:border-gray-300 focus:outline-none focus:ring-0"
+        className="w-full rounded-full border border-gray-200 bg-white/80 px-6 py-4 text-lg text-black shadow-lg backdrop-blur-sm transition-all focus:border-gray-300 focus:outline-none focus:ring-0"
         placeholder="Search countries..."
         onChange={(e) => {
           startTransition(() => {
@@ -31,7 +31,7 @@ export default function SearchBar() {
       />
       {searchParams.get("search") && (
         <select
-          className="w-full rounded-lg border border-gray-200 bg-white/80 px-4 py-2 text-gray-700 shadow-md backdrop-blur-sm"
+          className="w-full rounded-lg border border-gray-200 bg-white/80 px-4 py-2 text-black shadow-md backdrop-blur-sm"
           defaultValue={searchParams.get("sort") ?? "none"}
           onChange={(e) => {
             startTransition(() => {

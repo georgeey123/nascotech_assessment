@@ -5,15 +5,23 @@ import Link from "next/link"
 import Image from "next/image"
 import { useSearchParams } from "next/navigation"
 
-async function getCountries() {
+async function getCountries(): Promise<Country[]> {
   const res = await fetch("https://restcountries.com/v3.1/all")
   if (!res.ok) throw new Error("Failed to fetch countries")
   return res.json()
 }
 
+type Country = {
+  cca3: string;
+  name: { common: string };
+  population: number;
+  flags: { svg: string };
+};
+
 export default function CountryList() {
-  const [countries, setCountries] = useState([])
-  const [filteredCountries, setFilteredCountries] = useState([])
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
+
   const searchParams = useSearchParams()
 
   useEffect(() => {
@@ -24,22 +32,16 @@ export default function CountryList() {
     const search = searchParams.get("search")
     const sort = searchParams.get("sort")
 
-    let result = countries
+    let result: Country[] = [...countries]
 
     if (search) {
-      result = countries.filter((country: any) => country.name.common.toLowerCase().includes(search.toLowerCase()))
+      result = result.filter((country) =>
+        country.name.common.toLowerCase().includes(search.toLowerCase())
+      )
     }
 
     if (sort) {
-      result = [...result].sort((a: any, b: any) => {
-        if (sort === "asc") {
-          return a.population - b.population
-        }
-        if (sort === "desc") {
-          return b.population - a.population
-        }
-        return 0
-      })
+      result.sort((a, b) => (sort === "asc" ? a.population - b.population : b.population - a.population))
     }
 
     setFilteredCountries(result)
@@ -51,7 +53,7 @@ export default function CountryList() {
 
   return (
     <div className="space-y-3">
-      {filteredCountries.map((country: any) => (
+      {filteredCountries.map((country) => (
         <Link
           href={`/country/${country.cca3}`}
           key={country.cca3}
@@ -74,4 +76,3 @@ export default function CountryList() {
     </div>
   )
 }
-
