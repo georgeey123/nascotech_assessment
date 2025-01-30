@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { GetStaticPropsContext } from "next";
+// import { GetStaticPropsContext } from "next";
 import { ArrowLeft } from "lucide-react"
 
 type Country = {
@@ -22,23 +22,11 @@ async function getCountry(id: string): Promise<Country> {
   return data[0]
 }
 
-export async function generateStaticParams() {
-  const res = await fetch("https://restcountries.com/v3.1/all")
-  if (!res.ok) throw new Error("Failed to fetch countries")
-
-  const countries: Country[] = await res.json()
-
-  return countries.map((country) => ({
-    id: country.cca3,
-  }))
-}
-
-export default async function CountryPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params; 
-
+export default async function CountryPage({ params }: { params: { id: string } }) {
   if (!params?.id) {
     throw new Error("Country ID is missing");
   }
+  
   const country = await getCountry(params.id);
 
   return (
