@@ -1,6 +1,4 @@
-# nascotech_assessment
-
-# Country Information App
+# nascotech_assessment - Country Information App
 
 This is a **Next.js** application that fetches and displays country data from the [REST Countries API](https://restcountries.com/). The app allows users to search for countries, view details, and sort them based on population.
 
