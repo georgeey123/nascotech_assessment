@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import CountryList from "@/components/country-list"
+import CountryList from "@/components/CountryList"
 import SearchBar from "@/components/SearchBar"
 import { Search } from "lucide-react"
 
