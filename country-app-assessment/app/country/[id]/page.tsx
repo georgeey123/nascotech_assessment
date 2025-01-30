@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { GetStaticPropsContext } from "next";
 import { ArrowLeft } from "lucide-react"
 
 type Country = {
@@ -32,8 +33,11 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function CountryPage({ params }: { params: { id: string } }) {
-  const country = await getCountry(params.id)
+export default async function CountryPage({ params }: GetStaticPropsContext<{ id: string }>) {
+  if (!params?.id) {
+    throw new Error("Country ID is missing");
+  }
+  const country = await getCountry(params.id);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 px-4 py-8">
@@ -91,5 +95,5 @@ export default async function CountryPage({ params }: { params: { id: string } }
         </div>
       </div>
     </main>
-  )
+  );
 }
